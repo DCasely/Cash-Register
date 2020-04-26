@@ -107,21 +107,22 @@ function checkCashRegister(price, cash, cid) {
 
   changeDue = monetize(changeDue);
 
-  return cashRegisterStatus.change[0];
-
   // CREATE THE CONDITIONS TO TEST WHETHER changeDue WAS SATISFIED.
-  //   if (changeDue > 0) {
-  //     cashRegisterStatus.status = 'OPEN';
-  //     return cashRegisterStatus;
-  //   } else {
-  //     cashRegisterStatus.status = 'CLOSED';
-  //     return cashRegisterStatus;
-  //   }
+  if (changeDue > 0) {
+    cashRegisterStatus.status = 'INSUFFICIENT_FUNDS';
+    return cashRegisterStatus;
+  } else if (changeDue === 0) {
+    cashRegisterStatus.status = 'CLOSED';
+    return cashRegisterStatus;
+  } else {
+    cashRegisterStatus.status = 'OPEN';
+    return cashRegisterStatus;
+  }
 }
 
 // TEST THE FUNCTION
 console.log(
-  checkCashRegister(19.57, 19.6, [
+  checkCashRegister(19.5, 20, [
     ['PENNY', 1.01],
     ['NICKEL', 2.05],
     ['DIME', 3.1],
